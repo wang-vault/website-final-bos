@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+node_modules/
+.next/
+out/
+coverage/
+data/*.json
+data/*.tmp
+backups/
+*.log
+.DS_Store
+.vercel/
+
+tsconfig.tsbuildinfo

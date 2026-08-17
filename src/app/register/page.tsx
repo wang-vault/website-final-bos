@@ -1,0 +1,2 @@
+import type { Metadata } from "next";import Link from "next/link";import { AuthShell } from "@/components/auth-shell";import { RegisterForm } from "@/components/auth-forms";
+export const metadata:Metadata={title:"Daftar",robots:{index:false,follow:false}};export default function Page(){return <AuthShell title="Buat akun pelanggan" description="Gunakan email aktif. Verifikasi diperlukan sebelum akun dapat digunakan untuk masuk." footer={<>Sudah punya akun? <Link className="font-medium text-primary underline" href="/login">Masuk</Link></>}><RegisterForm/></AuthShell>}

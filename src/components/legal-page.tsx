@@ -1,0 +1,2 @@
+import { PageHeader } from "@/components/page-header";
+export function LegalPage({title,description,updated="17 Agustus 2026",children}:{title:string;description:string;updated?:string;children:React.ReactNode}){return <><PageHeader eyebrow="Dokumen Hukum" title={title} description={description}/><div className="container-page section-space"><div className="mx-auto max-w-3xl"><p className="text-sm text-subtle">Terakhir diperbarui: {updated}</p><div className="prose-wang mt-8">{children}</div></div></div></>}
