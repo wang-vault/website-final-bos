@@ -1,0 +1,30 @@
+name: Laporan bug
+description: Laporkan perilaku aplikasi yang dapat direproduksi
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Jangan laporkan kerentanan atau data pribadi melalui issue publik.
+  - type: textarea
+    id: description
+    attributes:
+      label: Deskripsi
+      description: Jelaskan hasil aktual dan hasil yang diharapkan.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Langkah reproduksi
+    validations:
+      required: true
+  - type: input
+    id: commit
+    attributes:
+      label: Commit atau versi
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser, runtime, dan platform tanpa secret.

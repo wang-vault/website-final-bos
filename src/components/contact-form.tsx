@@ -1,0 +1,11 @@
+"use client";
+import { useState, type FormEvent } from "react";
+import { Send } from "lucide-react";
+import { Alert, Button, Input, Textarea } from "@/components/ui";
+import { Turnstile } from "@/components/turnstile";
+interface ContactResult { success: boolean; data?: { ticketId: string; message: string }; message?: string }
+export function ContactForm({ defaultName = "", defaultEmail = "" }: { defaultName?: string; defaultEmail?: string }) {
+  const [result, setResult] = useState<{ error: boolean; message: string } | null>(null); const [loading,setLoading]=useState(false);
+  async function submit(event:FormEvent<HTMLFormElement>):Promise<void>{event.preventDefault();setLoading(true);setResult(null);const form=event.currentTarget;try{const response=await fetch("/api/contact",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify((()=>{const raw=Object.fromEntries(new FormData(form));return{...raw,turnstileToken:raw["cf-turnstile-response"]}})())});const json=await response.json() as ContactResult;if(!response.ok||!json.data)throw new Error(json.message??"Pesan tidak dapat dikirim.");setResult({error:false,message:`${json.data.message} Nomor tiket: ${json.data.ticketId}`});form.reset();}catch(error){setResult({error:true,message:error instanceof Error?error.message:"Pesan tidak dapat dikirim."});}finally{setLoading(false)}}
+  return <form onSubmit={submit} className="space-y-5"><div className="grid gap-5 sm:grid-cols-2"><label className="text-sm font-medium">Nama<Input name="name" required minLength={2} className="mt-2" defaultValue={defaultName} autoComplete="name"/></label><label className="text-sm font-medium">Email<Input name="email" type="email" required className="mt-2" defaultValue={defaultEmail} autoComplete="email"/></label></div><label className="block text-sm font-medium">Subjek<Input name="subject" required minLength={4} className="mt-2"/></label><label className="block text-sm font-medium">Pesan<Textarea name="message" required minLength={10} maxLength={4000} className="mt-2"/></label><Turnstile/><Button type="submit" disabled={loading}><Send className="h-4 w-4"/>{loading?"Mengirim…":"Kirim Pesan"}</Button>{result&&<Alert title={result.error?"Pesan belum terkirim":"Pesan diterima"} tone={result.error?"error":"success"}>{result.message}</Alert>}</form>;
+}

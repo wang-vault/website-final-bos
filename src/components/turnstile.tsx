@@ -1,0 +1,2 @@
+import Script from "next/script";
+export function Turnstile(){const siteKey=process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;if(!siteKey)return null;return <div className="space-y-2"><Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="lazyOnload"/><div className="cf-turnstile" data-sitekey={siteKey} data-theme="auto"/><p className="text-xs text-subtle">Verifikasi keamanan diperlukan sebelum mengirim.</p></div>}
