@@ -167,7 +167,7 @@ create table if not exists public.blog_posts (
   published_at timestamptz,seo_title text not null,seo_description text not null,created_at timestamptz not null default now(),updated_at timestamptz not null default now()
 );
 create index if not exists blog_published_idx on public.blog_posts(status,published_at desc);
-create index if not exists blog_search_idx on public.blog_posts using gin(to_tsvector('simple',title||' '||excerpt||' '||content||' '||category||' '||array_to_string(tags,' ')));
+create index if not exists blog_search_idx on public.blog_posts using gin(to_tsvector('simple',title||' '||excerpt||' '||content||' '||category));
 create table if not exists public.knowledge_articles (
   id uuid primary key default gen_random_uuid(),slug text not null unique,title text not null,excerpt text not null,content text not null,
   category text not null check(category in ('Memulai','Pemesanan','Pembayaran','Minecraft','Server','Pemecahan Masalah','Akun','Kebijakan')),
@@ -175,7 +175,7 @@ create table if not exists public.knowledge_articles (
   published_at timestamptz,seo_title text not null,seo_description text not null,created_at timestamptz not null default now(),updated_at timestamptz not null default now()
 );
 create index if not exists knowledge_published_idx on public.knowledge_articles(status,published_at desc);
-create index if not exists knowledge_search_idx on public.knowledge_articles using gin(to_tsvector('simple',title||' '||excerpt||' '||content||' '||category||' '||array_to_string(tags,' ')));
+create index if not exists knowledge_search_idx on public.knowledge_articles using gin(to_tsvector('simple',title||' '||excerpt||' '||content||' '||category));
 create table if not exists public.faq_items(id uuid primary key default gen_random_uuid(),question text not null,answer text not null,category text not null,sort_order integer not null default 0,published boolean not null default false,created_at timestamptz not null default now(),updated_at timestamptz not null default now());
 create table if not exists public.testimonials(id uuid primary key default gen_random_uuid(),customer_name text not null,quote text not null,source text not null,verified boolean not null default false,published boolean not null default false,created_at timestamptz not null default now(),updated_at timestamptz not null default now(),check(not published or verified));
 create table if not exists public.pages(id uuid primary key default gen_random_uuid(),slug text not null unique,title text not null,content text not null,status text not null check(status in ('draft','published')),seo_title text not null,seo_description text not null,created_at timestamptz not null default now(),updated_at timestamptz not null default now());
